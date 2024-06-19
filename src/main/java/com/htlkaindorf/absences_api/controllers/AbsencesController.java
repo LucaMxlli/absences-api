@@ -10,7 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class AbsencesController {
     @PostMapping
     public ResponseEntity<?> recordAbsence(@AuthenticationPrincipal UserDetails userDetails, @RequestBody Absences absences) {
         User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        absencesService.recordAbsence(user.getId(), absences.getDate(), absences.getHoursAbsent());
+        absencesService.insertAbsenceForUser(user.getId(), absences.getDate(), absences.getHoursAbsent());
         return ResponseEntity.ok("Absence recorded successfully");
     }
 
@@ -41,7 +40,7 @@ public class AbsencesController {
                     Map<String, Object> userMap = new HashMap<>();
                     userMap.put("id", user.getId());
                     userMap.put("fullName", user.getFullName());
-                    userMap.put("totalAbsenceHours", absencesService.getTotalAbsenceHours(user.getId()));
+                    userMap.put("totalAbsenceHours", absencesService.getAbsenceCountForUser(user.getId()));
                     return userMap;
                 })
                 .sorted((u1, u2) -> {
