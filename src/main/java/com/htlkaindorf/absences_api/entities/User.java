@@ -38,9 +38,10 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Absences> absences;
@@ -109,36 +110,10 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Role getRole() {
-        return role;
-    }
 
     public User setRole(Role role) {
         this.role = role;
         return this;
     }
 
-    public Set<Absences> getAbsences() {
-        return absences;
-    }
-
-    public void setAbsences(Set<Absences> absences) {
-        this.absences = absences;
-    }
 }
