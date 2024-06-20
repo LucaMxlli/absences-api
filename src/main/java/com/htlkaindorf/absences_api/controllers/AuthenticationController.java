@@ -7,6 +7,7 @@ import com.htlkaindorf.absences_api.entities.User;
 import com.htlkaindorf.absences_api.responses.LoginResponse;
 import com.htlkaindorf.absences_api.services.AuthenticationService;
 import com.htlkaindorf.absences_api.services.JwtService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    @Autowired
     public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
